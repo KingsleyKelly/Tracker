@@ -1,5 +1,6 @@
 require 'soundcloud'
 require 'awesome_print'
+p 1
 tracks = File.readlines('tracks.txt')
 
 tracks = ARGV unless tracks
@@ -7,6 +8,7 @@ unless tracks
   ap 'Add tracks please' 
   exit
 end
+p 2
 client = SoundCloud.new({
   :client_id     => ENV['SPOTIFY_CLIENT'],
   :client_secret => ENV['SPOTIFY_SECRET'],
@@ -15,9 +17,10 @@ client = SoundCloud.new({
 })
 
 playlist = client.get("/me/playlists").first
-
+p 3
 tracks.map! do |track|
-  p track
+  ap track
+  begin
   track = client.get('/tracks', limit:  1, q: track)
   track = track.first
   unless track.nil?
@@ -27,6 +30,11 @@ tracks.map! do |track|
       id: track['id']
     }
   else
+    nil
+  end
+  rescue
+    ap track
+    ap 'WTF DUDE'
     nil
   end
 end

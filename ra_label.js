@@ -1,1 +1,0 @@
-$.map($('li.clearfix > div.title'), function(x){ console.log($(x).text() + ' ' + $(x).first().text())})
